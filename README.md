@@ -9,11 +9,25 @@ See the testing section below for additional requirements to test certain comman
 Note this wrapper assumes the format requested for API responses is JSON. The alternative is XML but the XML format is not documented or supported by this wrapper. By default every API call will return JSON unless otherwise specified.
 
 ## Installation
+**GitHub**
+
 This CoinPayments.net API wrapper can be downloaded directly or cloned with GitHub. To use it in your project either clone this repository or download a ZIP to the directory of your choosing.
 
-Composer support is on the way and instructions will be published here when it's available.
+The minimum files required for usage are those in the source folder, `Coinpayments.php`, `CoinpaymentsValidator.php` and `CoinpaymentsCurlRequest.php`. A 4th required file for usage of predefined API keys and testing variables is `keys.php`. There is a `keys_example.php` file which can be populated and renamed to `keys.php`. This keys file is used to pass your public and private API keys to the wrapper in order to make calls to the Coinpayments.net Platform. You can also manually pass your keys to the `CoinpaymentsAPI` class if you prefer, instead of using a `keys.php` file. The `keys.php` file should be placed in the `/src` directory.
 
-The minimum files required for usage are those in the source folder, `Coinpayments.php` and `CoinpaymentsCurlRequest.php`. A 3rd required file for usage of predefined API keys and testing variables is `keys.php`. There is a `keys_example.php` file which can be populated and renamed to `keys.php`. This keys file is used to pass your public and private API keys to the wrapper in order to make calls to the Coinpayments.net Platform. You can also manually pass your keys to the `CoinpaymentsAPI` class if you prefer, instead of using a `keys.php` file. The `keys.php` file should be placed in the `/src` directory.
+**Composer**
+
+To install with composer run the following command `composer require coinpaymentsnet/coinpayments-php` and then include the following line in your project where you want to use the wrapper's classes.
+
+```php
+require_once('your_project_path_to/vendor/autoload.php');
+``` 
+
+Note the `/examples` directory does not use composer autoloading. 
+
+When using composer to autoload classes you should define your `keys.php` file outside of your `vendor` directory, as not to overwrite it when upgrading packages.
+
+[Packagist.org package URL](https://packagist.org/packages/coinpaymentsnet/coinpayments-php)
 
 ### Examples
 Previewing the scripts in the `/examples` directory in your browser is possible once you have setup the public and private keys in the `keys.php` file. This obviously requires the ability to serve these example PHP files with a web server like Apache. See additional testing notes below for interacting with these examples and your account. Some examples require you to populate initial variables in the example file in order to execute the scripts found within.
