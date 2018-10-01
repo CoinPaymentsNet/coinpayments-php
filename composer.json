@@ -1,5 +1,5 @@
 {
-  "name": "CoinPaymentsNet/coinpayments-php",
+  "name": "coinpaymentsnet/coinpayments-php",
   "type": "library",
   "description": "A PHP wrapper for the CoinPayments.net v1 API.",
   "homepage": "https://www.coinpayments.net/apidoc-intro",
