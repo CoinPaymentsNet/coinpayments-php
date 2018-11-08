@@ -46,15 +46,6 @@ class CoinpaymentsAPI
         $this->public_key = $public_key;
         $this->format = $format;
 
-        // Throw an error if the keys are not both passed
-        try {
-            if (empty($this->private_key) || empty($this->public_key)) {
-                throw new Exception("Your private and public keys are not both set!");
-            }
-        } catch (Exception $e) {
-            echo 'Error: ' . $e->getMessage();
-        }
-
         // Initiate a cURL request object
         $this->request_handler = new CoinpaymentsCurlRequest($this->private_key, $this->public_key, $format);
     }
@@ -1015,5 +1006,33 @@ class CoinpaymentsAPI
         ];
 
         return $this->request_handler->execute('claim_pbn_tag', $fields);
+    }
+
+    /**
+     * function RegisterUser
+     * Used to register a new user
+     *
+     * @param string $username the username you want to register, can't already be taken
+     * @param string $email the email you want to register, can't already be taken
+     * @param string $password the password the created user will use to log in
+     * @param string $apikey the api you've registered with coinpayments for your integration
+     *
+     * @return array|object
+     * Successful result includes an array for each tag with the following values:
+     *      - merchant (string) the merchant id of the newly create user account
+     *      - privkey (string) the private key for the newly created user
+     *      - pubkey (integer) the public key for the newly created user
+     * @throws Exception
+     */
+    public function RegisterUser($username, $email, $password, $apikey)
+    {
+        $fields = [
+            'username' => $username,
+            'email' => $email,
+            'pass' => $password,
+            'key' => $apikey
+        ];
+
+        return $this->request_handler->execute('app_reg', $fields);
     }
 }
