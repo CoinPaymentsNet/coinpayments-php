@@ -13,7 +13,7 @@ Note this wrapper assumes the format requested for API responses is JSON. The al
 
 This CoinPayments.net API wrapper can be downloaded directly or cloned with GitHub. To use it in your project either clone this repository or download a ZIP to the directory of your choosing.
 
-The minimum files required for usage are those in the source folder, `Coinpayments.php`, `CoinpaymentsValidator.php` and `CoinpaymentsCurlRequest.php`. A 4th required file for usage of predefined API keys and testing variables is `keys.php`. There is a `keys_example.php` file which can be populated and renamed to `keys.php`. This keys file is used to pass your public and private API keys to the wrapper in order to make calls to the Coinpayments.net Platform. You can also manually pass your keys to the `CoinpaymentsAPI` class if you prefer, instead of using a `keys.php` file. The `keys.php` file should be placed in the `/src` directory.
+The minimum files required for usage are those in the source folder, `CoinpaymentsAPI.php`, `CoinpaymentsValidator.php` and `CoinpaymentsCurlRequest.php`. A 4th required file for usage of predefined API keys and testing variables is `keys.php`. There is a `keys_example.php` file which can be populated and renamed to `keys.php`. This keys file is used to pass your public and private API keys to the wrapper in order to make calls to the Coinpayments.net Platform. You can also manually pass your keys to the `CoinpaymentsAPI` class if you prefer, instead of using a `keys.php` file. The `keys.php` file should be placed in the `/src` directory.
 
 **Composer**
 
@@ -37,7 +37,7 @@ The simplest example is retrieving basic account information.
 
 ```php
 // For manual wrapper usage include the following require:
-require('/your_installation_path_to/src/Coinpayments.php');
+require('/your_installation_path_to/src/CoinpaymentsAPI.php');
 
 /** Scenario: Retrieve basic user account information.**/
 // Either include the sample keys.php file (once populated) or manually set $public_key and $private_key variables
