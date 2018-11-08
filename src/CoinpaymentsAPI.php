@@ -1021,7 +1021,7 @@ class CoinpaymentsAPI
      * Successful result includes an array for each tag with the following values:
      *      - merchant (string) the merchant id of the newly create user account
      *      - privkey (string) the private key for the newly created user
-     *      - pubkey (integer) the public key for the newly created user
+     *      - pubkey (string) the public key for the newly created user
      * @throws Exception
      */
     public function RegisterUser($username, $email, $password, $apikey)
