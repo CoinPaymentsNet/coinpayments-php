@@ -439,6 +439,7 @@ class CoinpaymentsAPI
      *
      * @param string $currency The ticker of the currency for the callback address.
      * @param string $ipn_url Your Instant Payment Notifications server URL to be associated with the address.
+     * @param string $label Optionally set an address label
      *
      * @return array|object
      * Successful result includes the following values.
@@ -448,11 +449,12 @@ class CoinpaymentsAPI
      *
      * @throws Exception
      */
-    public function GetCallbackAddressWithIpn($currency, $ipn_url)
+    public function GetCallbackAddressWithIpn($currency, $ipn_url, $label='')
     {
         $fields = [
             'currency' => $currency,
-            'ipn_url' => $ipn_url
+            'ipn_url' => $ipn_url,
+            'label' => $label,
         ];
         return $this->request_handler->execute('get_callback_address', $fields);
 
