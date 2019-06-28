@@ -22,5 +22,5 @@ if ($information['error'] == 'ok') {
     echo $output;
 } else {
     // Throw an error if both API calls were not successful
-    echo 'There was an error returned by the API call: ' . $balances['error'] . '<br>Rates API call status: ' . $rates['error'];
+    echo 'There was an error returned by the API call: ' . $information['error'];
 }
