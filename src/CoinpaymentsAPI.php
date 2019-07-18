@@ -454,8 +454,8 @@ class CoinpaymentsAPI
         $fields = [
             'currency' => $currency,
             'ipn_url' => $ipn_url,
-            'label' => $label,
         ];
+        if(!empty($label)) $fields['label'] = $label;
         return $this->request_handler->execute('get_callback_address', $fields);
 
     }
