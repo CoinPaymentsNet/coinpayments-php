@@ -85,6 +85,12 @@ class CoinpaymentsValidator
                 'ipn_url' => [
                     'type' => 'url'
                 ],
+                'success_url' => [
+                    'type' => 'url'
+                ],
+                'cancel_url' => [
+                    'type' => 'url'
+                ]
             ]
         ],
         'get_callback_address' => [
