@@ -102,6 +102,9 @@ class CoinpaymentsValidator
             'optional' => [
                 'ipn_url' => [
                     'type' => 'url'
+                ],
+                'label' => [
+                    'type' => 'string'
                 ]
             ]
         ],
