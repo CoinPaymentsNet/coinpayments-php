@@ -53,7 +53,7 @@ try {
 }
 
 // Check for success of API call
-if ($cps_api['error'] == 'ok') {
+if ($information['error'] == 'ok') {
     // Prepare start of sample HTML output
     $output = '<table><tbody><tr><td>Username</td><td>Merchant ID</td><td>Email</td><td>Public Name</td></tr>';
     $output .= '<tr><td>' . $cps_api['result']['username'] . '</td><td>' . $cps_api['result']['merchant_id'] . '</td><td>' . $cps_api['result']['email'] . '</td><td>' . $cps_api['result']['public_name'] . '</td></tr>';
