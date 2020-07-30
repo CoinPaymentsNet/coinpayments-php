@@ -17,7 +17,11 @@ The minimum files required for usage are those in the source folder, `Coinpaymen
 
 **Composer**
 
-To install with composer run the following command `composer require coinpaymentsnet/coinpayments-php` and then include the following line in your project where you want to use the wrapper's classes.
+To install with composer run the following command
+
+    composer require coinpaymentsnet/coinpayments-php
+
+and then include the following line in your project where you want to use the wrapper's classes.
 
 ```php
 require_once('your_project_path_to/vendor/autoload.php');
@@ -25,7 +29,7 @@ require_once('your_project_path_to/vendor/autoload.php');
 
 Note the `/examples` directory does not use composer autoloading. 
 
-When using composer to autoload classes you should define your `keys.php` file outside of your `vendor` directory, as not to overwrite it when upgrading packages.
+When using composer to autoload classes you should define your `keys.php` file outside of your `vendor` directory, as not to overwrite it when upgrading packages.  See [src/keys_example.php](https://github.com/CoinPaymentsNet/coinpayments-php/blob/master/src/keys_example.php) as an example `keys.php` file.
 
 [Packagist.org package URL](https://packagist.org/packages/coinpaymentsnet/coinpayments-php)
 
@@ -36,10 +40,10 @@ Previewing the scripts in the `/examples` directory in your browser is possible 
 The simplest example is retrieving basic account information. 
 
 ```php
-// For manual wrapper usage include the following require:
+// Ignore this line if using composer autoload,
+// otherwise, manual wrapper usage include the following require:
 require('/your_installation_path_to/src/CoinpaymentsAPI.php');
 
-/** Scenario: Retrieve basic user account information.**/
 // Either include the sample keys.php file (once populated) or manually set $public_key and $private_key variables
 require('/your_installation_path_to/src/keys.php');
 
@@ -56,7 +60,8 @@ try {
 if ($information['error'] == 'ok') {
     // Prepare start of sample HTML output
     $output = '<table><tbody><tr><td>Username</td><td>Merchant ID</td><td>Email</td><td>Public Name</td></tr>';
-    $output .= '<tr><td>' . $cps_api['result']['username'] . '</td><td>' . $cps_api['result']['merchant_id'] . '</td><td>' . $cps_api['result']['email'] . '</td><td>' . $cps_api['result']['public_name'] . '</td></tr>';
+    $output .= '<tr><td>' . $information['result']['username'] . '</td><td>' . $information['result']['merchant_id'] . '</td><td>' . $information['result']['email'] . '</td><td>' . $information['result']['public_name'] . '</td></tr>';
+    
     // Close the sample output HTML and echo it onto the page
     $output .= '</tbody></table>';
     echo $output;
@@ -78,16 +83,16 @@ With only the public and private keys populated, the following commands can be t
 * `get_callback_address` | `GetOnlyCallbackAddress()`, `GetCallbackAddressWithIpn()`
 * `convert_limits` | `GetConversionLimits()`
 
-Note that the `get_callback_address` command and functions above would also need an IPN URL setup in your account or passed with the command should you wish to test your server being notified of payment to the returned address. More information is available here in our [documentation for the Instant Payment Notification system](https://www.coinpayments.net/merchant-tools-ipn).
+Note that the `get_callback_address` command and functions above would also need an `IPN URL` setup in your account or passed with the command should you wish to test your server being notified of payment to the returned address. More information is available here in our [documentation for the Instant Payment Notification (IPN) system](https://www.coinpayments.net/merchant-tools-ipn).
  
  The additional variables (those below the API keys) require setting up a second developer CoinPayments.net account to test the following commands, assuming the currency is LTCT. Alternatively these commands could also be tested with access other addresses or wallets capable of receiving and sending the currency you are testing with, as long as that currency is supported by the CoinPayments.net platform. See [supported coins here](https://www.coinpayments.net/supported-coins). 
  * `create_transaction` | `CreateSimpleTransaction()`, `CreateSimpleTransactionWithConversion()`, `CreateComplexTransaction()`, `CreateCustomTransaction()`
  * `create_transfer` | `CreateMerchantTransfer()`
  * `get_withdrawal_history` | `GetWithdrawalHistory()`
  * `get_withdrawal_info` | `GetWithdrawalInformation()` 
- * `create_withdrawal` & `create_mass_withdrawal` | `CreateWithdrawal()` & `CreateMassWithdrawal()` * using address only, not $PayByName, see below.
+ * `create_withdrawal` & `create_mass_withdrawal` | `CreateWithdrawal()` & `CreateMassWithdrawal()` * using address only, not `$PayByName`, see below.
 
- Currently our API does not allow for testing of the coin conversion or $PayByName commands without access to production assets, so the following commands do require production environment data on the platform to be available. For example unclaimed and claimed $PayByName tags or currency in two convertible coins. These tests have been run by our development team with the production environment data (assets) to include these commands in code testing coverage. It is still recommended these commands be tested with the production environment before being published as part of any integration. This would require small amounts of mainnet coins for converting and the purchase of at least one $PayByName tag to claim, send funds to and retrieve information on (for the testing of all possible commands).
+ Currently our API does not allow for testing of the coin conversion or `$PayByName` commands without access to production assets, so the following commands do require production environment data on the platform to be available. For example, unclaimed and claimed `$PayByName` tags or currency in two convertible coins. These tests have been run by our development team with the production environment data (assets) to include these commands in code testing coverage. It is still recommended these commands be tested with the production environment before being published as part of any integration. This would require small amounts of mainnet coins for converting and the purchase of at least one `$PayByName` tag to claim, send funds to and retrieve information on (for the testing of all possible commands).
  * `convert` | `ConvertCoins()`
  * `get_conversion_info` | `GetConversionInformation()`
  * `get_pbn_info` | `GetProfileInformation()`
@@ -95,11 +100,14 @@ Note that the `get_callback_address` command and functions above would also need
  * `update_pbn_tag` | `UpdateTagProfile()`
  * `claim_pbn_tag` | `ClaimPayByNameTag()`
  * `create_transfer` | `CreatePayByNameTransfer()`
- * `create_withdrawal` & `create_mass_withdrawal` | `CreateWithdrawal()` & `CreateMassWithdrawal()` * using $PayByName instead of address
+ * `create_withdrawal` & `create_mass_withdrawal` | `CreateWithdrawal()` & `CreateMassWithdrawal()` * using `$PayByName` instead of address
 
 ### PHPUnit tests
-To run the tests from the `/tests` directory, run this command:
-`phpunit CoinpaymentsAPITest` with your chosen flags for output type. Alternatively you can configure an IDE, like PHPStorm to run the tests in `CoinpaymentsAPITest.php` for you. In development of this wrapper we used PHPUnit v7.3.1. 
+To run the tests from the [/tests](https://github.com/CoinPaymentsNet/coinpayments-php/tree/master/tests) directory, run this command:
+
+    phpunit CoinpaymentsAPITest
+
+with your chosen flags for output type. Alternatively you can configure an IDE, like PHPStorm to run the tests in `CoinpaymentsAPITest.php` for you. In development of this wrapper we used PHPUnit v7.3.1. 
 
 ### Transaction Fees
  Test transactions done with any mainnet coin incur regular transaction and network fees, which is why we highly recommend using LiteCoin Testnet (LTCT) when testing your API integration.
