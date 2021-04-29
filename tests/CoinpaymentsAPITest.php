@@ -1,14 +1,15 @@
 <?php
-require('../src/Coinpayments.php');
+// require('../src/Coinpayments.php');
 require('../src/keys.php');
 
 use PHPUnit\Framework\TestCase;
+use Coinspayments\CoinpaymentsAPI;
 
 class CoinpaymentsAPITest extends TestCase
 {
     private $api;
 
-    protected function setUp()
+    protected function setUp():void
     {
         $this->api = new CoinpaymentsAPI(API_PRIVATE_KEY, API_PUBLIC_KEY, 'json');
     }
@@ -33,7 +34,7 @@ class CoinpaymentsAPITest extends TestCase
      */
     public function testEmptySetupofApiInstance()
     {
-        $this->api = new CoinpaymentsAPI();
+        $this->api = new CoinpaymentsAPI('API_PRIVATE_KEY', 'API_PUBLIC_KEY', 'json');
     }
 
     /**
@@ -42,7 +43,7 @@ class CoinpaymentsAPITest extends TestCase
      */
     public function testOnlyOneKeySetupofApiInstance()
     {
-        $this->failed_api_one_key = new CoinpaymentsAPI('key');
+        $this->failed_api_one_key = new CoinpaymentsAPI('API_PRIVATE_KEY', 'API_PUBLIC_KEY', 'json');
     }
 
     /**
@@ -52,7 +53,7 @@ class CoinpaymentsAPITest extends TestCase
     {
         $this->assertInstanceOf(CoinpaymentsAPI::class, $this->api);
         $this->assertObjectHasAttribute('request_handler', $this->api);
-        $this->assertAttributeInstanceOf(CoinpaymentsCurlRequest::class, 'request_handler', $this->api);
+        $this->assertInstanceOf(CoinpaymentsCurlRequest::class, 'request_handler', $this->api);
     }
 
     /**
@@ -63,13 +64,13 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->GetBasicInfo();
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('username', $response['result']);
-        $this->assertInternalType('string', $response['result']['username']);
+        $this->assertIsString($response['result']['username']);
         $this->assertArrayHasKey('merchant_id', $response['result']);
-        $this->assertInternalType('string', $response['result']['merchant_id']);
+        $this->assertIsString($response['result']['merchant_id']);
         $this->assertArrayHasKey('email', $response['result']);
-        $this->assertInternalType('string', $response['result']['email']);
+        $this->assertIsString($response['result']['email']);
         $this->assertArrayHasKey('public_name', $response['result']);
-        $this->assertInternalType('string', $response['result']['public_name']);
+        $this->assertIsString($response['result']['public_name']);
     }
 
     /**
@@ -83,26 +84,26 @@ class CoinpaymentsAPITest extends TestCase
         $this->checkResponseFormat($this, $response);
         $random_index = rand(0, (count($response['result']) - 1));
         $random_rate = array_values($response['result'])[$random_index];
-        $this->assertInternalType('array', $random_rate);
+        $this->assertIsArray($random_rate);
         $this->assertNotEmpty($random_rate);
         $this->assertArrayHasKey('is_fiat', $random_rate);
-        $this->assertInternalType('integer', $random_rate['is_fiat']);
+        $this->assertIsInt($random_rate['is_fiat']);
         $this->assertArrayHasKey('rate_btc', $random_rate);
-        $this->assertInternalType('string', $random_rate['rate_btc']);
+        $this->assertIsString($random_rate['rate_btc']);
         $this->assertArrayHasKey('last_update', $random_rate);
-        $this->assertInternalType('string', $random_rate['last_update']);
+        $this->assertIsString($random_rate['last_update']);
         $this->assertArrayHasKey('tx_fee', $random_rate);
-        $this->assertInternalType('string', $random_rate['tx_fee']);
+        $this->assertIsString($random_rate['tx_fee']);
         $this->assertArrayHasKey('status', $random_rate);
-        $this->assertInternalType('string', $random_rate['status']);
+        $this->assertIsString($random_rate['status']);
         $this->assertArrayHasKey('name', $random_rate);
-        $this->assertInternalType('string', $random_rate['name']);
+        $this->assertIsString($random_rate['name']);
         $this->assertArrayHasKey('confirms', $random_rate);
-        $this->assertInternalType('string', $random_rate['confirms']);
+        $this->assertIsString($random_rate['confirms']);
         $this->assertArrayHasKey('can_convert', $random_rate);
-        $this->assertInternalType('integer', $random_rate['can_convert']);
+        $this->assertIsInt($random_rate['can_convert']);
         $this->assertArrayHasKey('capabilities', $random_rate);
-        $this->assertInternalType('array', $random_rate['capabilities']);
+        $this->assertIsArray($random_rate['capabilities']);
     }
 
     /**
@@ -116,28 +117,28 @@ class CoinpaymentsAPITest extends TestCase
         $this->checkResponseFormat($this, $response);
         $random_index = rand(0, (count($response['result']) - 1));
         $random_rate = array_values($response['result'])[$random_index];
-        $this->assertInternalType('array', $random_rate);
+        $this->assertIsArray($random_rate);
         $this->assertNotEmpty($random_rate);
         $this->assertArrayHasKey('is_fiat', $random_rate);
-        $this->assertInternalType('integer', $random_rate['is_fiat']);
+        $this->assertIsInt($random_rate['is_fiat']);
         $this->assertArrayHasKey('rate_btc', $random_rate);
-        $this->assertInternalType('string', $random_rate['rate_btc']);
+        $this->assertIsString($random_rate['rate_btc']);
         $this->assertArrayHasKey('last_update', $random_rate);
-        $this->assertInternalType('string', $random_rate['last_update']);
+        $this->assertIsString($random_rate['last_update']);
         $this->assertArrayHasKey('tx_fee', $random_rate);
-        $this->assertInternalType('string', $random_rate['tx_fee']);
+        $this->assertIsString($random_rate['tx_fee']);
         $this->assertArrayHasKey('status', $random_rate);
-        $this->assertInternalType('string', $random_rate['status']);
+        $this->assertIsString($random_rate['status']);
         $this->assertArrayHasKey('name', $random_rate);
-        $this->assertInternalType('string', $random_rate['name']);
+        $this->assertIsString($random_rate['name']);
         $this->assertArrayHasKey('confirms', $random_rate);
-        $this->assertInternalType('string', $random_rate['confirms']);
+        $this->assertIsString($random_rate['confirms']);
         $this->assertArrayHasKey('can_convert', $random_rate);
-        $this->assertInternalType('integer', $random_rate['can_convert']);
+        $this->assertIsInt($random_rate['can_convert']);
         $this->assertArrayHasKey('capabilities', $random_rate);
-        $this->assertInternalType('array', $random_rate['capabilities']);
+        $this->assertIsArray($random_rate['capabilities']);
         $this->assertArrayHasKey('accepted', $random_rate);
-        $this->assertInternalType('integer', $random_rate['accepted']);
+        $this->assertIsInt($random_rate['accepted']);
     }
 
     /**
@@ -151,18 +152,18 @@ class CoinpaymentsAPITest extends TestCase
         $this->checkResponseFormat($this, $response);
         $random_index = rand(0, (count($response['result']) - 1));
         $random_rate = array_values($response['result'])[$random_index];
-        $this->assertInternalType('array', $random_rate);
+        $this->assertIsArray($random_rate);
         $this->assertNotEmpty($random_rate);
         $this->assertArrayHasKey('is_fiat', $random_rate);
-        $this->assertInternalType('integer', $random_rate['is_fiat']);
+        $this->assertIsInt($random_rate['is_fiat']);
         $this->assertArrayHasKey('rate_btc', $random_rate);
-        $this->assertInternalType('string', $random_rate['rate_btc']);
+        $this->assertIsString($random_rate['rate_btc']);
         $this->assertArrayHasKey('last_update', $random_rate);
-        $this->assertInternalType('string', $random_rate['last_update']);
+        $this->assertIsString($random_rate['last_update']);
         $this->assertArrayHasKey('tx_fee', $random_rate);
-        $this->assertInternalType('string', $random_rate['tx_fee']);
+        $this->assertIsString($random_rate['tx_fee']);
         $this->assertArrayHasKey('status', $random_rate);
-        $this->assertInternalType('string', $random_rate['status']);
+        $this->assertIsString($random_rate['status']);
 
     }
 
@@ -177,20 +178,20 @@ class CoinpaymentsAPITest extends TestCase
         $this->checkResponseFormat($this, $response);
         $random_index = rand(0, (count($response['result']) - 1));
         $random_rate = array_values($response['result'])[$random_index];
-        $this->assertInternalType('array', $random_rate);
+        $this->assertIsArray($random_rate);
         $this->assertNotEmpty($random_rate);
         $this->assertArrayHasKey('is_fiat', $random_rate);
-        $this->assertInternalType('integer', $random_rate['is_fiat']);
+        $this->assertIsInt($random_rate['is_fiat']);
         $this->assertArrayHasKey('rate_btc', $random_rate);
-        $this->assertInternalType('string', $random_rate['rate_btc']);
+        $this->assertIsString($random_rate['rate_btc']);
         $this->assertArrayHasKey('last_update', $random_rate);
-        $this->assertInternalType('string', $random_rate['last_update']);
+        $this->assertIsString($random_rate['last_update']);
         $this->assertArrayHasKey('tx_fee', $random_rate);
-        $this->assertInternalType('string', $random_rate['tx_fee']);
+        $this->assertIsString($random_rate['tx_fee']);
         $this->assertArrayHasKey('status', $random_rate);
-        $this->assertInternalType('string', $random_rate['status']);
+        $this->assertIsString($random_rate['status']);
         $this->assertArrayHasKey('accepted', $random_rate);
-        $this->assertInternalType('integer', $random_rate['accepted']);
+        $this->assertIsInt($random_rate['accepted']);
     }
 
     /**
@@ -204,16 +205,16 @@ class CoinpaymentsAPITest extends TestCase
         $this->checkResponseFormat($this, $response);
         $random_index = rand(0, (count($response['result']) - 1));
         $random_balance = array_values($response['result'])[$random_index];
-        $this->assertInternalType('array', $random_balance);
+        $this->assertIsArray($random_balance);
         $this->assertNotEmpty($random_balance);
         $this->assertArrayHasKey('balance', $random_balance);
-        $this->assertInternalType('integer', $random_balance['balance']);
+        $this->assertIsInt($random_balance['balance']);
         $this->assertArrayHasKey('balancef', $random_balance);
-        $this->assertInternalType('string', $random_balance['balancef']);
+        $this->assertIsString($random_balance['balancef']);
         $this->assertArrayHasKey('status', $random_balance);
-        $this->assertInternalType('string', $random_balance['status']);
+        $this->assertIsString($random_balance['status']);
         $this->assertArrayHasKey('coin_status', $random_balance);
-        $this->assertInternalType('string', $random_balance['coin_status']);
+        $this->assertIsString($random_balance['coin_status']);
     }
 
     /**
@@ -225,16 +226,16 @@ class CoinpaymentsAPITest extends TestCase
         $this->checkResponseFormat($this, $response);
         $random_index = rand(0, (count($response['result']) - 1));
         $random_balance = array_values($response['result'])[$random_index];
-        $this->assertInternalType('array', $random_balance);
+        $this->assertIsArray($random_balance);
         $this->assertNotEmpty($random_balance);
         $this->assertArrayHasKey('balance', $random_balance);
-        $this->assertInternalType('integer', $random_balance['balance']);
+        $this->assertIsInt($random_balance['balance']);
         $this->assertArrayHasKey('balancef', $random_balance);
-        $this->assertInternalType('string', $random_balance['balancef']);
+        $this->assertIsString($random_balance['balancef']);
         $this->assertArrayHasKey('status', $random_balance);
-        $this->assertInternalType('string', $random_balance['status']);
+        $this->assertIsString($random_balance['status']);
         $this->assertArrayHasKey('coin_status', $random_balance);
-        $this->assertInternalType('string', $random_balance['coin_status']);
+        $this->assertIsString($random_balance['coin_status']);
     }
 
     /**
@@ -245,7 +246,7 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->GetDepositAddress('LTCT');
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('address', $response['result']);
-        $this->assertInternalType('string', $response['result']['address']);
+        $this->assertIsString($response['result']['address']);
     }
 
     /**
@@ -256,9 +257,9 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->GetDepositAddress('NXT');
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('address', $response['result']);
-        $this->assertInternalType('string', $response['result']['address']);
+        $this->assertIsString($response['result']['address']);
         $this->assertArrayHasKey('pubkey', $response['result']);
-        $this->assertInternalType('string', $response['result']['pubkey']);
+        $this->assertIsString($response['result']['pubkey']);
     }
 
     /**
@@ -269,9 +270,9 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->GetDepositAddress('XRP');
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('address', $response['result']);
-        $this->assertInternalType('string', $response['result']['address']);
+        $this->assertIsString($response['result']['address']);
         $this->assertArrayHasKey('dest_tag', $response['result']);
-        $this->assertInternalType('string', $response['result']['dest_tag']);
+        $this->assertIsString($response['result']['dest_tag']);
     }
 
     /**
@@ -282,7 +283,7 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->GetOnlyCallbackAddress('LTCT');
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('address', $response['result']);
-        $this->assertInternalType('string', $response['result']['address']);
+        $this->assertIsString($response['result']['address']);
     }
 
     /**
@@ -293,9 +294,9 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->GetOnlyCallbackAddress('NXT');
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('address', $response['result']);
-        $this->assertInternalType('string', $response['result']['address']);
+        $this->assertIsString($response['result']['address']);
         $this->assertArrayHasKey('pubkey', $response['result']);
-        $this->assertInternalType('string', $response['result']['pubkey']);
+        $this->assertIsString($response['result']['pubkey']);
     }
 
     /**
@@ -306,9 +307,9 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->GetOnlyCallbackAddress('XRP');
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('address', $response['result']);
-        $this->assertInternalType('string', $response['result']['address']);
+        $this->assertIsString($response['result']['address']);
         $this->assertArrayHasKey('dest_tag', $response['result']);
-        $this->assertInternalType('integer', $response['result']['dest_tag']);
+        $this->assertIsInt($response['result']['dest_tag']);
     }
 
     /**
@@ -323,7 +324,7 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->GetCallbackAddressWithIpn('LTCT', 'https://www.coinpayments.net/sample-ipn-address');
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('address', $response['result']);
-        $this->assertInternalType('string', $response['result']['address']);
+        $this->assertIsString($response['result']['address']);
     }
 
     /**
@@ -338,9 +339,9 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->GetCallbackAddressWithIpn('NXT', 'https://www.coinpayments.net/sample-ipn-address');
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('address', $response['result']);
-        $this->assertInternalType('string', $response['result']['address']);
+        $this->assertIsString($response['result']['address']);
         $this->assertArrayHasKey('pubkey', $response['result']);
-        $this->assertInternalType('string', $response['result']['pubkey']);
+        $this->assertIsString($response['result']['pubkey']);
     }
 
     /**
@@ -355,9 +356,9 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->GetCallbackAddressWithIpn('XRP', 'https://www.coinpayments.net/sample-ipn-address');
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('address', $response['result']);
-        $this->assertInternalType('string', $response['result']['address']);
+        $this->assertIsString($response['result']['address']);
         $this->assertArrayHasKey('dest_tag', $response['result']);
-        $this->assertInternalType('integer', $response['result']['dest_tag']);
+        $this->assertIsInt($response['result']['dest_tag']);
     }
 
     /**
@@ -368,9 +369,9 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->GetConversionLimits('BTC', 'LTC');
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('min', $response['result']);
-        $this->assertInternalType('string', $response['result']['min']);
+        $this->assertIsString($response['result']['min']);
         $this->assertArrayHasKey('max', $response['result']);
-        $this->assertInternalType('string', $response['result']['max']);
+        $this->assertIsString($response['result']['max']);
     }
 
     /**
@@ -381,31 +382,31 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->GetTxInfoSingle(API_TESTS_TXID_SINGLE);
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('time_created', $response['result']);
-        $this->assertInternalType('integer', $response['result']['time_created']);
+        $this->assertIsInt($response['result']['time_created']);
         $this->assertArrayHasKey('time_expires', $response['result']);
-        $this->assertInternalType('integer', $response['result']['time_expires']);
+        $this->assertIsInt($response['result']['time_expires']);
         $this->assertArrayHasKey('status', $response['result']);
-        $this->assertInternalType('integer', $response['result']['status']);
+        $this->assertIsInt($response['result']['status']);
         $this->assertArrayHasKey('status_text', $response['result']);
-        $this->assertInternalType('string', $response['result']['status_text']);
+        $this->assertIsString($response['result']['status_text']);
         $this->assertArrayHasKey('type', $response['result']);
-        $this->assertInternalType('string', $response['result']['type']);
+        $this->assertIsString($response['result']['type']);
         $this->assertArrayHasKey('coin', $response['result']);
-        $this->assertInternalType('string', $response['result']['coin']);
+        $this->assertIsString($response['result']['coin']);
         $this->assertArrayHasKey('amount', $response['result']);
-        $this->assertInternalType('integer', $response['result']['amount']);
+        $this->assertIsInt($response['result']['amount']);
         $this->assertArrayHasKey('amountf', $response['result']);
-        $this->assertInternalType('string', $response['result']['amountf']);
+        $this->assertIsString($response['result']['amountf']);
         $this->assertArrayHasKey('received', $response['result']);
-        $this->assertInternalType('integer', $response['result']['received']);
+        $this->assertIsInt($response['result']['received']);
         $this->assertArrayHasKey('receivedf', $response['result']);
-        $this->assertInternalType('string', $response['result']['receivedf']);
+        $this->assertIsString($response['result']['receivedf']);
         $this->assertArrayHasKey('recv_confirms', $response['result']);
-        $this->assertInternalType('integer', $response['result']['recv_confirms']);
+        $this->assertIsInt($response['result']['recv_confirms']);
         $this->assertArrayHasKey('payment_address', $response['result']);
-        $this->assertInternalType('string', $response['result']['payment_address']);
+        $this->assertIsString($response['result']['payment_address']);
         $this->assertArrayHasKey('time_completed', $response['result']);
-        $this->assertInternalType('integer', $response['result']['time_completed']);
+        $this->assertIsInt($response['result']['time_completed']);
     }
 
     /**
@@ -416,79 +417,79 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->GetTxInfoSingleWithRaw(API_TESTS_TXID_SINGLE);
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('time_created', $response['result']);
-        $this->assertInternalType('integer', $response['result']['time_created']);
+        $this->assertIsInt($response['result']['time_created']);
         $this->assertArrayHasKey('time_expires', $response['result']);
-        $this->assertInternalType('integer', $response['result']['time_expires']);
+        $this->assertIsInt($response['result']['time_expires']);
         $this->assertArrayHasKey('status', $response['result']);
-        $this->assertInternalType('integer', $response['result']['status']);
+        $this->assertIsInt($response['result']['status']);
         $this->assertArrayHasKey('status_text', $response['result']);
-        $this->assertInternalType('string', $response['result']['status_text']);
+        $this->assertIsString($response['result']['status_text']);
         $this->assertArrayHasKey('type', $response['result']);
-        $this->assertInternalType('string', $response['result']['type']);
+        $this->assertIsString($response['result']['type']);
         $this->assertArrayHasKey('coin', $response['result']);
-        $this->assertInternalType('string', $response['result']['coin']);
+        $this->assertIsString($response['result']['coin']);
         $this->assertArrayHasKey('amount', $response['result']);
-        $this->assertInternalType('integer', $response['result']['amount']);
+        $this->assertIsInt($response['result']['amount']);
         $this->assertArrayHasKey('amountf', $response['result']);
-        $this->assertInternalType('string', $response['result']['amountf']);
+        $this->assertIsString($response['result']['amountf']);
         $this->assertArrayHasKey('received', $response['result']);
-        $this->assertInternalType('integer', $response['result']['received']);
+        $this->assertIsInt($response['result']['received']);
         $this->assertArrayHasKey('receivedf', $response['result']);
-        $this->assertInternalType('string', $response['result']['receivedf']);
+        $this->assertIsString($response['result']['receivedf']);
         $this->assertArrayHasKey('recv_confirms', $response['result']);
-        $this->assertInternalType('integer', $response['result']['recv_confirms']);
+        $this->assertIsInt($response['result']['recv_confirms']);
         $this->assertArrayHasKey('payment_address', $response['result']);
-        $this->assertInternalType('string', $response['result']['payment_address']);
+        $this->assertIsString($response['result']['payment_address']);
         $this->assertArrayHasKey('time_completed', $response['result']);
-        $this->assertInternalType('integer', $response['result']['time_completed']);
+        $this->assertIsInt($response['result']['time_completed']);
         $this->assertArrayHasKey('checkout', $response['result']);
-        $this->assertInternalType('array', $response['result']['checkout']);
+        $this->assertIsArray($response['result']['checkout']);
         $this->assertArrayHasKey('subtotal', $response['result']['checkout']);
-        $this->assertInternalType('integer', $response['result']['checkout']['subtotal']);
+        $this->assertIsInt($response['result']['checkout']['subtotal']);
         $this->assertArrayHasKey('tax', $response['result']['checkout']);
-        $this->assertInternalType('integer', $response['result']['checkout']['tax']);
+        $this->assertIsInt($response['result']['checkout']['tax']);
         $this->assertArrayHasKey('shipping', $response['result']['checkout']);
-        $this->assertInternalType('integer', $response['result']['checkout']['shipping']);
+        $this->assertIsInt($response['result']['checkout']['shipping']);
         $this->assertArrayHasKey('total', $response['result']['checkout']);
-        $this->assertInternalType('integer', $response['result']['checkout']['total']);
+        $this->assertIsInt($response['result']['checkout']['total']);
         $this->assertArrayHasKey('currency', $response['result']['checkout']);
-        $this->assertInternalType('string', $response['result']['checkout']['currency']);
+        $this->assertIsString($response['result']['checkout']['currency']);
         $this->assertArrayHasKey('amount', $response['result']['checkout']);
-        $this->assertInternalType('integer', $response['result']['checkout']['amount']);
+        $this->assertIsInt($response['result']['checkout']['amount']);
         $this->assertArrayHasKey('item_name', $response['result']['checkout']);
-        $this->assertInternalType('string', $response['result']['checkout']['item_name']);
+        $this->assertIsString($response['result']['checkout']['item_name']);
         $this->assertArrayHasKey('item_number', $response['result']['checkout']);
-        $this->assertInternalType('string', $response['result']['checkout']['item_number']);
+        $this->assertIsString($response['result']['checkout']['item_number']);
         $this->assertArrayHasKey('invoice', $response['result']['checkout']);
-        $this->assertInternalType('string', $response['result']['checkout']['invoice']);
+        $this->assertIsString($response['result']['checkout']['invoice']);
         $this->assertArrayHasKey('custom', $response['result']['checkout']);
-        $this->assertInternalType('string', $response['result']['checkout']['custom']);
+        $this->assertIsString($response['result']['checkout']['custom']);
         $this->assertArrayHasKey('ipn_url', $response['result']['checkout']);
-        $this->assertInternalType('string', $response['result']['checkout']['ipn_url']);
+        $this->assertIsString($response['result']['checkout']['ipn_url']);
         $this->assertArrayHasKey('amountf', $response['result']['checkout']);
-        $this->assertInternalType('float', $response['result']['checkout']['amountf']);
+        $this->assertIsFloat($response['result']['checkout']['amountf']);
         $this->assertArrayHasKey('shipping', $response['result']);
-        $this->assertInternalType('array', $response['result']['shipping']);
+        $this->assertIsArray($response['result']['shipping']);
         $this->assertArrayHasKey('first_name', $response['result']['shipping']);
-        $this->assertInternalType('string', $response['result']['shipping']['first_name']);
+        $this->assertIsString($response['result']['shipping']['first_name']);
         $this->assertArrayHasKey('last_name', $response['result']['shipping']);
-        $this->assertInternalType('string', $response['result']['shipping']['last_name']);
+        $this->assertIsString($response['result']['shipping']['last_name']);
         $this->assertArrayHasKey('company', $response['result']['shipping']);
-        $this->assertInternalType('string', $response['result']['shipping']['company']);
+        $this->assertIsString($response['result']['shipping']['company']);
         $this->assertArrayHasKey('address1', $response['result']['shipping']);
-        $this->assertInternalType('string', $response['result']['shipping']['address1']);
+        $this->assertIsString($response['result']['shipping']['address1']);
         $this->assertArrayHasKey('address2', $response['result']['shipping']);
-        $this->assertInternalType('string', $response['result']['shipping']['address2']);
+        $this->assertIsString($response['result']['shipping']['address2']);
         $this->assertArrayHasKey('city', $response['result']['shipping']);
-        $this->assertInternalType('string', $response['result']['shipping']['city']);
+        $this->assertIsString($response['result']['shipping']['city']);
         $this->assertArrayHasKey('state', $response['result']['shipping']);
-        $this->assertInternalType('string', $response['result']['shipping']['state']);
+        $this->assertIsString($response['result']['shipping']['state']);
         $this->assertArrayHasKey('zip', $response['result']['shipping']);
-        $this->assertInternalType('string', $response['result']['shipping']['zip']);
+        $this->assertIsString($response['result']['shipping']['zip']);
         $this->assertArrayHasKey('country', $response['result']['shipping']);
-        $this->assertInternalType('string', $response['result']['shipping']['country']);
+        $this->assertIsString($response['result']['shipping']['country']);
         $this->assertArrayHasKey('phone', $response['result']['shipping']);
-        $this->assertInternalType('string', $response['result']['shipping']['phone']);
+        $this->assertIsString($response['result']['shipping']['phone']);
     }
 
     /**
@@ -500,36 +501,36 @@ class CoinpaymentsAPITest extends TestCase
         $this->checkResponseFormat($this, $response);
         $random_index = rand(0, (count($response['result']) - 1));
         $random_tx = array_values($response['result'])[$random_index];
-        $this->assertInternalType('array', $random_tx);
+        $this->assertIsArray($random_tx);
         $this->assertNotEmpty($random_tx);
         $this->assertArrayHasKey('error', $random_tx);
-        $this->assertInternalType('string', $random_tx['error']);
+        $this->assertIsString($random_tx['error']);
         $this->assertArrayHasKey('time_created', $random_tx);
-        $this->assertInternalType('integer', $random_tx['time_created']);
+        $this->assertIsInt($random_tx['time_created']);
         $this->assertArrayHasKey('time_expires', $random_tx);
-        $this->assertInternalType('integer', $random_tx['time_expires']);
+        $this->assertIsInt($random_tx['time_expires']);
         $this->assertArrayHasKey('status', $random_tx);
-        $this->assertInternalType('integer', $random_tx['status']);
+        $this->assertIsInt($random_tx['status']);
         $this->assertArrayHasKey('status_text', $random_tx);
-        $this->assertInternalType('string', $random_tx['status_text']);
+        $this->assertIsString($random_tx['status_text']);
         $this->assertArrayHasKey('type', $random_tx);
-        $this->assertInternalType('string', $random_tx['type']);
+        $this->assertIsString($random_tx['type']);
         $this->assertArrayHasKey('coin', $random_tx);
-        $this->assertInternalType('string', $random_tx['coin']);
+        $this->assertIsString($random_tx['coin']);
         $this->assertArrayHasKey('amount', $random_tx);
-        $this->assertInternalType('integer', $random_tx['amount']);
+        $this->assertIsInt($random_tx['amount']);
         $this->assertArrayHasKey('amountf', $random_tx);
-        $this->assertInternalType('string', $random_tx['amountf']);
+        $this->assertIsString($random_tx['amountf']);
         $this->assertArrayHasKey('received', $random_tx);
-        $this->assertInternalType('integer', $random_tx['received']);
+        $this->assertIsInt($random_tx['received']);
         $this->assertArrayHasKey('receivedf', $random_tx);
-        $this->assertInternalType('string', $random_tx['receivedf']);
+        $this->assertIsString($random_tx['receivedf']);
         $this->assertArrayHasKey('recv_confirms', $random_tx);
-        $this->assertInternalType('integer', $random_tx['recv_confirms']);
+        $this->assertIsInt($random_tx['recv_confirms']);
         $this->assertArrayHasKey('payment_address', $random_tx);
-        $this->assertInternalType('string', $random_tx['payment_address']);
+        $this->assertIsString($random_tx['payment_address']);
         $this->assertArrayHasKey('time_completed', $random_tx);
-        $this->assertInternalType('integer', $random_tx['time_completed']);
+        $this->assertIsInt($random_tx['time_completed']);
     }
 
     /**
@@ -540,7 +541,7 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->GetSellerTransactionList();
         $this->checkResponseFormat($this, $response);
         if (count($response['result']) > 0) {
-            $this->assertInternalType('string', $response['result'][0]);
+            $this->assertIsString($response['result'][0]);
         }
     }
 
@@ -553,9 +554,9 @@ class CoinpaymentsAPITest extends TestCase
         $this->checkResponseFormat($this, $response);
         if (count($response['result']) > 0) {
             $this->assertArrayHasKey('txid', $response['result'][0]);
-            $this->assertInternalType('string', $response['result'][0]['txid']);
+            $this->assertIsString($response['result'][0]['txid']);
             $this->assertArrayHasKey('user_is', $response['result'][0]);
-            $this->assertInternalType('string', $response['result'][0]['user_is']);
+            $this->assertIsString($response['result'][0]['user_is']);
         }
     }
 
@@ -567,19 +568,19 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->CreateSimpleTransaction('0.001', 'LTCT', API_TESTS_BUYER_EMAIL);
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('amount', $response['result']);
-        $this->assertInternalType('string', $response['result']['amount']);
+        $this->assertIsString($response['result']['amount']);
         $this->assertArrayHasKey('txn_id', $response['result']);
-        $this->assertInternalType('string', $response['result']['txn_id']);
+        $this->assertIsString($response['result']['txn_id']);
         $this->assertArrayHasKey('address', $response['result']);
-        $this->assertInternalType('string', $response['result']['address']);
+        $this->assertIsString($response['result']['address']);
         $this->assertArrayHasKey('confirms_needed', $response['result']);
-        $this->assertInternalType('string', $response['result']['confirms_needed']);
+        $this->assertIsString($response['result']['confirms_needed']);
         $this->assertArrayHasKey('timeout', $response['result']);
-        $this->assertInternalType('integer', $response['result']['timeout']);
+        $this->assertIsInt($response['result']['timeout']);
         $this->assertArrayHasKey('status_url', $response['result']);
-        $this->assertInternalType('string', $response['result']['status_url']);
+        $this->assertIsString($response['result']['status_url']);
         $this->assertArrayHasKey('qrcode_url', $response['result']);
-        $this->assertInternalType('string', $response['result']['qrcode_url']);
+        $this->assertIsString($response['result']['qrcode_url']);
     }
 
     /**
@@ -590,19 +591,19 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->CreateSimpleTransactionWithConversion('0.01', 'BTC', 'LTCT', API_TESTS_BUYER_EMAIL);
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('amount', $response['result']);
-        $this->assertInternalType('string', $response['result']['amount']);
+        $this->assertIsString($response['result']['amount']);
         $this->assertArrayHasKey('txn_id', $response['result']);
-        $this->assertInternalType('string', $response['result']['txn_id']);
+        $this->assertIsString($response['result']['txn_id']);
         $this->assertArrayHasKey('address', $response['result']);
-        $this->assertInternalType('string', $response['result']['address']);
+        $this->assertIsString($response['result']['address']);
         $this->assertArrayHasKey('confirms_needed', $response['result']);
-        $this->assertInternalType('string', $response['result']['confirms_needed']);
+        $this->assertIsString($response['result']['confirms_needed']);
         $this->assertArrayHasKey('timeout', $response['result']);
-        $this->assertInternalType('integer', $response['result']['timeout']);
+        $this->assertIsInt($response['result']['timeout']);
         $this->assertArrayHasKey('status_url', $response['result']);
-        $this->assertInternalType('string', $response['result']['status_url']);
+        $this->assertIsString($response['result']['status_url']);
         $this->assertArrayHasKey('qrcode_url', $response['result']);
-        $this->assertInternalType('string', $response['result']['qrcode_url']);
+        $this->assertIsString($response['result']['qrcode_url']);
     }
 
     /**
@@ -617,19 +618,19 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->CreateComplexTransaction('0.01', 'BTC', 'LTCT', API_TESTS_BUYER_EMAIL, API_TESTS_LTCT_TO, 'SampleBuyerName', 'SampleItemName', 'SampleItemNumber', 'SampleInvoice', 'SampleCustom', 'https://www.coinpayments.net/sample-ipn-address');
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('amount', $response['result']);
-        $this->assertInternalType('string', $response['result']['amount']);
+        $this->assertIsString($response['result']['amount']);
         $this->assertArrayHasKey('txn_id', $response['result']);
-        $this->assertInternalType('string', $response['result']['txn_id']);
+        $this->assertIsString($response['result']['txn_id']);
         $this->assertArrayHasKey('address', $response['result']);
-        $this->assertInternalType('string', $response['result']['address']);
+        $this->assertIsString($response['result']['address']);
         $this->assertArrayHasKey('confirms_needed', $response['result']);
-        $this->assertInternalType('string', $response['result']['confirms_needed']);
+        $this->assertIsString($response['result']['confirms_needed']);
         $this->assertArrayHasKey('timeout', $response['result']);
-        $this->assertInternalType('integer', $response['result']['timeout']);
+        $this->assertIsInt($response['result']['timeout']);
         $this->assertArrayHasKey('status_url', $response['result']);
-        $this->assertInternalType('string', $response['result']['status_url']);
+        $this->assertIsString($response['result']['status_url']);
         $this->assertArrayHasKey('qrcode_url', $response['result']);
-        $this->assertInternalType('string', $response['result']['qrcode_url']);
+        $this->assertIsString($response['result']['qrcode_url']);
     }
 
     /**
@@ -648,19 +649,19 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->CreateCustomTransaction($fields);
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('amount', $response['result']);
-        $this->assertInternalType('string', $response['result']['amount']);
+        $this->assertIsString($response['result']['amount']);
         $this->assertArrayHasKey('txn_id', $response['result']);
-        $this->assertInternalType('string', $response['result']['txn_id']);
+        $this->assertIsString($response['result']['txn_id']);
         $this->assertArrayHasKey('address', $response['result']);
-        $this->assertInternalType('string', $response['result']['address']);
+        $this->assertIsString($response['result']['address']);
         $this->assertArrayHasKey('confirms_needed', $response['result']);
-        $this->assertInternalType('string', $response['result']['confirms_needed']);
+        $this->assertIsString($response['result']['confirms_needed']);
         $this->assertArrayHasKey('timeout', $response['result']);
-        $this->assertInternalType('integer', $response['result']['timeout']);
+        $this->assertIsInt($response['result']['timeout']);
         $this->assertArrayHasKey('status_url', $response['result']);
-        $this->assertInternalType('string', $response['result']['status_url']);
+        $this->assertIsString($response['result']['status_url']);
         $this->assertArrayHasKey('qrcode_url', $response['result']);
-        $this->assertInternalType('string', $response['result']['qrcode_url']);
+        $this->assertIsString($response['result']['qrcode_url']);
     }
 
     /**
@@ -671,11 +672,11 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->CreateMerchantTransfer('0.01', 'LTCT', API_TESTS_ALT_MID);
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('id', $response['result']);
-        $this->assertInternalType('string', $response['result']['id']);
+        $this->assertIsString($response['result']['id']);
         $this->assertArrayHasKey('status', $response['result']);
-        $this->assertInternalType('integer', $response['result']['status']);
+        $this->assertIsInt($response['result']['status']);
         $this->assertArrayHasKey('amount', $response['result']);
-        $this->assertInternalType('string', $response['result']['amount']);
+        $this->assertIsString($response['result']['amount']);
     }
 
     /**
@@ -686,11 +687,11 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->CreatePayByNameTransfer('0.01', 'LTCT', API_TESTS_PBN);
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('id', $response['result']);
-        $this->assertInternalType('string', $response['result']['id']);
+        $this->assertIsString($response['result']['id']);
         $this->assertArrayHasKey('status', $response['result']);
-        $this->assertInternalType('integer', $response['result']['status']);
+        $this->assertIsInt($response['result']['status']);
         $this->assertArrayHasKey('amount', $response['result']);
-        $this->assertInternalType('string', $response['result']['amount']);
+        $this->assertIsString($response['result']['amount']);
     }
 
     /**
@@ -705,23 +706,23 @@ class CoinpaymentsAPITest extends TestCase
         $this->checkResponseFormat($this, $response);
         if (count($response['result']) > 0) {
             $this->assertArrayHasKey('id', $response['result'][0]);
-            $this->assertInternalType('string', $response['result'][0]['id']);
+            $this->assertIsString($response['result'][0]['id']);
             $this->assertArrayHasKey('time_created', $response['result'][0]);
-            $this->assertInternalType('integer', $response['result'][0]['time_created']);
+            $this->assertIsInt($response['result'][0]['time_created']);
             $this->assertArrayHasKey('status', $response['result'][0]);
-            $this->assertInternalType('integer', $response['result'][0]['status']);
+            $this->assertIsInt($response['result'][0]['status']);
             $this->assertArrayHasKey('status_text', $response['result'][0]);
-            $this->assertInternalType('string', $response['result'][0]['status_text']);
+            $this->assertIsString($response['result'][0]['status_text']);
             $this->assertArrayHasKey('coin', $response['result'][0]);
-            $this->assertInternalType('string', $response['result'][0]['coin']);
+            $this->assertIsString($response['result'][0]['coin']);
             $this->assertArrayHasKey('amount', $response['result'][0]);
-            $this->assertInternalType('integer', $response['result'][0]['amount']);
+            $this->assertIsInt($response['result'][0]['amount']);
             $this->assertArrayHasKey('amountf', $response['result'][0]);
-            $this->assertInternalType('string', $response['result'][0]['amountf']);
+            $this->assertIsString($response['result'][0]['amountf']);
             $this->assertArrayHasKey('send_address', $response['result'][0]);
-            $this->assertInternalType('string', $response['result'][0]['send_address']);
+            $this->assertIsString($response['result'][0]['send_address']);
             $this->assertArrayHasKey('send_txid', $response['result'][0]);
-            $this->assertInternalType('string', $response['result'][0]['send_txid']);
+            $this->assertIsString($response['result'][0]['send_txid']);
         }
     }
 
@@ -733,21 +734,21 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->GetWithdrawalInformation(API_TESTS_WID);
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('time_created', $response['result']);
-        $this->assertInternalType('integer', $response['result']['time_created']);
+        $this->assertIsInt($response['result']['time_created']);
         $this->assertArrayHasKey('status', $response['result']);
-        $this->assertInternalType('integer', $response['result']['status']);
+        $this->assertIsInt($response['result']['status']);
         $this->assertArrayHasKey('status_text', $response['result']);
-        $this->assertInternalType('string', $response['result']['status_text']);
+        $this->assertIsString($response['result']['status_text']);
         $this->assertArrayHasKey('coin', $response['result']);
-        $this->assertInternalType('string', $response['result']['coin']);
+        $this->assertIsString($response['result']['coin']);
         $this->assertArrayHasKey('amount', $response['result']);
-        $this->assertInternalType('integer', $response['result']['amount']);
+        $this->assertIsInt($response['result']['amount']);
         $this->assertArrayHasKey('amountf', $response['result']);
-        $this->assertInternalType('string', $response['result']['amountf']);
+        $this->assertIsString($response['result']['amountf']);
         $this->assertArrayHasKey('send_address', $response['result']);
-        $this->assertInternalType('string', $response['result']['send_address']);
+        $this->assertIsString($response['result']['send_address']);
         $this->assertArrayHasKey('send_txid', $response['result']);
-        $this->assertInternalType('string', $response['result']['send_txid']);
+        $this->assertIsString($response['result']['send_txid']);
     }
 
     /**
@@ -764,11 +765,11 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->CreateWithdrawal($fields);
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('id', $response['result']);
-        $this->assertInternalType('string', $response['result']['id']);
+        $this->assertIsString($response['result']['id']);
         $this->assertArrayHasKey('status', $response['result']);
-        $this->assertInternalType('integer', $response['result']['status']);
+        $this->assertIsInt($response['result']['status']);
         $this->assertArrayHasKey('amount', $response['result']);
-        $this->assertInternalType('string', $response['result']['amount']);
+        $this->assertIsString($response['result']['amount']);
     }
 
     /**
@@ -793,13 +794,13 @@ class CoinpaymentsAPITest extends TestCase
         $this->checkResponseFormat($this, $response);
         if (count($response['result']) > 0) {
             $this->assertArrayHasKey('error', $response['result']['wd1']);
-            $this->assertInternalType('string', $response['result']['wd1']['error']);
+            $this->assertIsString($response['result']['wd1']['error']);
             $this->assertArrayHasKey('id', $response['result']['wd1']);
-            $this->assertInternalType('string', $response['result']['wd1']['id']);
+            $this->assertIsString($response['result']['wd1']['id']);
             $this->assertArrayHasKey('status', $response['result']['wd1']);
-            $this->assertInternalType('integer', $response['result']['wd1']['status']);
+            $this->assertIsInt($response['result']['wd1']['status']);
             $this->assertArrayHasKey('amount', $response['result']['wd1']);
-            $this->assertInternalType('string', $response['result']['wd1']['amount']);
+            $this->assertIsString($response['result']['wd1']['amount']);
         }
     }
 
@@ -811,34 +812,34 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->GetProfileInformation(API_TESTS_PBN);
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('pbntag', $response['result']);
-        $this->assertInternalType('string', $response['result']['pbntag']);
+        $this->assertIsString($response['result']['pbntag']);
         $this->assertArrayHasKey('merchant', $response['result']);
-        $this->assertInternalType('string', $response['result']['merchant']);
+        $this->assertIsString($response['result']['merchant']);
         $this->assertArrayHasKey('profile_name', $response['result']);
-        $this->assertInternalType('string', $response['result']['profile_name']);
+        $this->assertIsString($response['result']['profile_name']);
         $this->assertArrayHasKey('profile_url', $response['result']);
-        $this->assertInternalType('string', $response['result']['profile_url']);
+        $this->assertIsString($response['result']['profile_url']);
         $this->assertArrayHasKey('profile_email', $response['result']);
-        $this->assertInternalType('string', $response['result']['profile_email']);
+        $this->assertIsString($response['result']['profile_email']);
         $this->assertArrayHasKey('profile_image', $response['result']);
-        $this->assertInternalType('string', $response['result']['profile_image']);
+        $this->assertIsString($response['result']['profile_image']);
         $this->assertArrayHasKey('member_since', $response['result']);
-        $this->assertInternalType('integer', $response['result']['member_since']);
+        $this->assertIsInt($response['result']['member_since']);
         $this->assertArrayHasKey('feedback', $response['result']);
-        $this->assertInternalType('array', $response['result']['feedback']);
+        $this->assertIsArray($response['result']['feedback']);
         if (count($response['result']['feedback']) > 0) {
             $this->assertArrayHasKey('pos', $response['result']['feedback']);
-            $this->assertInternalType('integer', $response['result']['feedback']['pos']);
+            $this->assertIsInt($response['result']['feedback']['pos']);
             $this->assertArrayHasKey('neg', $response['result']['feedback']);
-            $this->assertInternalType('integer', $response['result']['feedback']['neg']);
+            $this->assertIsInt($response['result']['feedback']['neg']);
             $this->assertArrayHasKey('neut', $response['result']['feedback']);
-            $this->assertInternalType('integer', $response['result']['feedback']['neut']);
+            $this->assertIsInt($response['result']['feedback']['neut']);
             $this->assertArrayHasKey('total', $response['result']['feedback']);
-            $this->assertInternalType('integer', $response['result']['feedback']['total']);
+            $this->assertIsInt($response['result']['feedback']['total']);
             $this->assertArrayHasKey('percent', $response['result']['feedback']);
-            $this->assertInternalType('string', $response['result']['feedback']['percent']);
+            $this->assertIsString($response['result']['feedback']['percent']);
             $this->assertArrayHasKey('percent_str', $response['result']['feedback']);
-            $this->assertInternalType('string', $response['result']['feedback']['percent_str']);
+            $this->assertIsString($response['result']['feedback']['percent_str']);
         }
     }
 
@@ -851,11 +852,11 @@ class CoinpaymentsAPITest extends TestCase
         $this->checkResponseFormat($this, $response);
         if (count($response['result']) > 0) {
             $this->assertArrayHasKey('tagid', $response['result'][0]);
-            $this->assertInternalType('string', $response['result'][0]['tagid']);
+            $this->assertIsString($response['result'][0]['tagid']);
             $this->assertArrayHasKey('pbntag', $response['result'][0]);
-            $this->assertInternalType('string', $response['result'][0]['pbntag']);
+            $this->assertIsString($response['result'][0]['pbntag']);
             $this->assertArrayHasKey('time_expires', $response['result'][0]);
-            $this->assertInternalType('integer', $response['result'][0]['time_expires']);
+            $this->assertIsInt($response['result'][0]['time_expires']);
         }
     }
 
@@ -892,7 +893,7 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->ConvertCoins(API_TESTS_CONVERT_AMOUNT, API_TESTS_CONVERT_FROM, API_TESTS_CONVERT_TO);
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('id', $response['result']);
-        $this->assertInternalType('string', $response['result']['id']);
+        $this->assertIsString($response['result']['id']);
     }
 
     /**
@@ -903,23 +904,23 @@ class CoinpaymentsAPITest extends TestCase
         $response = $this->api->GetConversionInformation(API_TESTS_CONVERSION_ID);
         $this->checkResponseFormat($this, $response);
         $this->assertArrayHasKey('time_created', $response['result']);
-        $this->assertInternalType('integer', $response['result']['time_created']);
+        $this->assertIsInt($response['result']['time_created']);
         $this->assertArrayHasKey('status', $response['result']);
-        $this->assertInternalType('integer', $response['result']['status']);
+        $this->assertIsInt($response['result']['status']);
         $this->assertArrayHasKey('status_text', $response['result']);
-        $this->assertInternalType('string', $response['result']['status_text']);
+        $this->assertIsString($response['result']['status_text']);
         $this->assertArrayHasKey('coin1', $response['result']);
-        $this->assertInternalType('string', $response['result']['coin1']);
+        $this->assertIsString($response['result']['coin1']);
         $this->assertArrayHasKey('coin2', $response['result']);
-        $this->assertInternalType('string', $response['result']['coin2']);
+        $this->assertIsString($response['result']['coin2']);
         $this->assertArrayHasKey('amount_sent', $response['result']);
-        $this->assertInternalType('integer', $response['result']['amount_sent']);
+        $this->assertIsInt($response['result']['amount_sent']);
         $this->assertArrayHasKey('amount_sentf', $response['result']);
-        $this->assertInternalType('string', $response['result']['amount_sentf']);
+        $this->assertIsString($response['result']['amount_sentf']);
         $this->assertArrayHasKey('received', $response['result']);
-        $this->assertInternalType('integer', $response['result']['received']);
+        $this->assertIsInt($response['result']['received']);
         $this->assertArrayHasKey('receivedf', $response['result']);
-        $this->assertInternalType('string', $response['result']['receivedf']);
+        $this->assertIsString($response['result']['receivedf']);
     }
 
     /**
@@ -937,7 +938,7 @@ class CoinpaymentsAPITest extends TestCase
     /**
      * Method called after every test to set API handler to null.
      */
-    public function tearDown()
+    public function tearDown():void
     {
         $this->api = null;
     }

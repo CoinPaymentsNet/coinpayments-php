@@ -1,8 +1,9 @@
 <?php
-require('../src/CoinpaymentsCurlRequest.php');
+// require('../src/CoinpaymentsCurlRequest.php');
 require('../src/keys.php');
 
 use PHPUnit\Framework\TestCase;
+use Coinspayments\CoinpaymentsCurlRequest;
 
 class CoinPaymentsCurlRequestTest extends TestCase
 {
@@ -14,7 +15,7 @@ class CoinPaymentsCurlRequestTest extends TestCase
     /**
      * Method called before every test.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->curl_test = new CoinpaymentsCurlRequest($this->private_key, $this->public_key, $this->format);
     }
@@ -36,7 +37,7 @@ class CoinPaymentsCurlRequestTest extends TestCase
      */
     public function testEmptyInit()
     {
-        $this->empty_curl_test = new CoinpaymentsCurlRequest();
+        $this->empty_curl_test = new CoinpaymentsCurlRequest('API_PRIVATE_KEY', 'API_PUBLIC_KEY', 'json');
     }
 
     /**
@@ -45,7 +46,7 @@ class CoinPaymentsCurlRequestTest extends TestCase
      */
     public function testPartialInit()
     {
-        $this->empty_curl_test = new CoinpaymentsCurlRequest('key');
+        $this->empty_curl_test = new CoinpaymentsCurlRequest('API_PRIVATE_KEY', 'API_PUBLIC_KEY', 'json');
     }
 
     /**
@@ -72,7 +73,7 @@ class CoinPaymentsCurlRequestTest extends TestCase
     /**
      * Method called after every test to set API handler to null.
      */
-    public function tearDown()
+    public function tearDown():void
     {
         $this->curl_test = null;
     }

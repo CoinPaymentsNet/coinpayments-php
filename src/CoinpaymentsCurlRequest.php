@@ -1,5 +1,8 @@
 <?php
-require('CoinpaymentsValidator.php');
+namespace Coinspayments;
+
+use Coinspayments\CoinpaymentsValidator;
+//require('CoinpaymentsValidator.php');
 
 class CoinpaymentsCurlRequest
 {

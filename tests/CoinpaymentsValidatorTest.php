@@ -1,14 +1,15 @@
 <?php
-require('../src/CoinpaymentsValidator.php');
+// require('../src/CoinpaymentsValidator.php');
 
 use PHPUnit\Framework\TestCase;
+use Coinspayments\CoinpaymentsValidator;
 
 class CoinpaymentsValidatorTest extends TestCase
 {
     private $validator;
     private $fields;
 
-    protected function setUp()
+    protected function setUp():void
     {
         $this->fields = [];
     }
@@ -163,7 +164,7 @@ class CoinpaymentsValidatorTest extends TestCase
         $this->assertTrue($is_valid);
     }
 
-    protected function tearDown()
+    protected function tearDown():void
     {
         $this->validator = null;
         $this->fields = null;

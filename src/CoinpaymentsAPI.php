@@ -1,5 +1,9 @@
 <?php
-require('CoinpaymentsCurlRequest.php');
+namespace Coinspayments;
+
+use Exception;
+use Coinspayments\CoinpaymentsCurlRequest;
+//require('CoinpaymentsCurlRequest.php');
 
 /**
  * CoinPayments.net PHP API Wrapper
