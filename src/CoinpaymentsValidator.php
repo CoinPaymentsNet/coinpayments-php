@@ -1,5 +1,7 @@
 <?php
+namespace Coinspayments;
 
+use Exception;
 /**
  * Class CoinpaymentsValidator
  *
