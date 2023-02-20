@@ -311,13 +311,14 @@ class CoinpaymentsAPI
      *
      * @throws Exception
      */
-    public function CreateSimpleTransactionWithConversion($amount, $currency1, $currency2, $buyer_email)
+    public function CreateSimpleTransactionWithConversion($amount, $currency1, $currency2, $buyer_email,$ipn_url="")
     {
         $fields = [
             'amount' => $amount,
             'currency1' => $currency1,
             'currency2' => $currency2,
-            'buyer_email' => $buyer_email
+            'buyer_email' => $buyer_email,
+            'ipn_url' => $ipn_url
         ];
         return $this->request_handler->execute('create_transaction', $fields);
     }
