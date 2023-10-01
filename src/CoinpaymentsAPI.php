@@ -33,13 +33,14 @@ class CoinpaymentsAPI
      * @param $public_key
      * @param $format
      */
-    public function __construct($private_key, $public_key, $format)
+    public function __construct($private_key, $public_key, $format = "json")
     {
 
         // Set the default format to json if a value was not passed
-        if (empty($format)) {
-            $format = 'json';
-        }
+        // // to set the default value of "format" to "json" you need to mention it in the parameters defined above directly
+        // if (empty($format)) {
+        //     $format = 'json';
+        // }
 
         // Set keys and format passed to class
         $this->private_key = $private_key;
